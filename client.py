@@ -18,7 +18,6 @@ import sys
 # sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "computer_restart"))
 # import computer_restart
 import game_exe
-import img_search_utils
 import utils
 import connect_request
 import re
@@ -31,7 +30,7 @@ PONG_TIMEOUT = 8  # 초 (pong 응답 대기 시간)
 character_list={}
 
 def load_json(json_file, json_folder): #file, folder
-  full_path=img_search_utils.file_path(json_file, json_folder)  #file, folder, sub_folder
+  full_path=utils.file_path(json_file, json_folder)  #file, folder, sub_folder
 
   try:
     with open(full_path, "r", encoding="utf-8") as f:
@@ -94,7 +93,7 @@ def disconnect():
 # def reqAccount(data):
 #   global character_list
 
-#   full_path=img_search_utils.file_path("character_list.json","character_list_json")  #file, folder, sub_folder
+#   full_path=utils.file_path("character_list.json","character_list_json")  #file, folder, sub_folder
 #   def sort_key(text):
 #     # 첫 번째 공백을 기준으로 앞(서버)과 뒤(아이디)를 나눔
 #     server_part, id_part = text.split(" ", 1)  
@@ -116,7 +115,7 @@ def disconnect():
 def reqAccount(data):
   global character_list
 
-  full_path=img_search_utils.file_path("character_list.json","character_list_json")  #file, folder, sub_folder 
+  full_path=utils.file_path("character_list.json","character_list_json")  #file, folder, sub_folder 
   
   accont_dict=get_account.get_account_list(sio)
 
@@ -196,7 +195,7 @@ def recvImage(data):
   file_name=data[2]
   calculated_hash = hashlib.sha256(img.encode("utf-8")).hexdigest()
 
-  full_path=img_search_utils.file_path(f"{file_name}","image_files")  #file, folder, sub_folder
+  full_path=utils.file_path(f"{file_name}","image_files")  #file, folder, sub_folder
 
   # 해시 확인
   if hash_value==calculated_hash: 
