@@ -25,3 +25,4 @@ def load_json(json_file, json_folder): #file, folder
       return json.load(f)
   except (FileNotFoundError, json.JSONDecodeError):
     return {}  # 파일이 없거나 잘못된 JSON이면 빈 데이터 반환
+

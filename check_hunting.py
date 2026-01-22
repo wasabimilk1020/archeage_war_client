@@ -1,4 +1,4 @@
-import client_utils
+import img_search_utils
 import time
 import re
 
@@ -8,7 +8,7 @@ binary_value=130
 
 def checkHunting():
   for i in range(5):
-    text=client_utils.capture_text_from_region(x, y, width, height, config, binary_value)
+    text=img_search_utils.capture_text_from_region(x, y, width, height, config, binary_value)
     if text[0]==0:  #capture_text_from_region 예외 발생
       return text[0], text[1]
     clean_text=re.sub(r"^\s+|\s+$", "", text[0])  # 정규식으로 앞뒤 공백 제거

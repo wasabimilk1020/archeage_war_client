@@ -1,7 +1,5 @@
 import win32gui
-import client_utils
-import serial_comm
-import time
+import img_search_utils
 import check_hunting
 from waking_from_sleep import *
 from go_to_sleep import *
@@ -19,7 +17,7 @@ def mainLoop(sio, btn_func, func_data, id_handle, btn_name):
     if win32gui.IsWindow(handle):
       sio.emit("logEvent",[f"{btn_name} 시작", character_name, STATUS_MSG]) 
 
-      return_val=client_utils.getWindow(handle) #윈도우 얻음
+      return_val=img_search_utils.getWindow(handle) #윈도우 얻음
       if return_val[0]==0:
         sio.emit("logEvent",[return_val[1], character_name, ERR_MSG])
         continue 

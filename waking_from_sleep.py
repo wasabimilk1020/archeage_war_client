@@ -1,4 +1,4 @@
-import client_utils
+import img_search_utils
 import serial_comm
 import time
 
@@ -13,7 +13,7 @@ def waking_from_sleep_and_deathChk(btn_name, sleep_time):
   serial_comm.mouseDrag(dragValues)
   if btn_name not in ["파티"]:
     time.sleep(sleep_time)   #실제로는 열렸는지 확인하는 코드 넣어야됨
-    client_utils.searchImg('deathChk.png',beforeDelay=0, afterDelay=0, _region=(800,755,350,200))  #사망체크
+    img_search_utils.searchImg('deathChk.png',beforeDelay=0, afterDelay=0, _region=(800,755,350,200))  #사망체크
   
   # #페널티 클릭 루틴
   # if result==1:
