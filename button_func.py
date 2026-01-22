@@ -302,9 +302,10 @@ def decomposeItemOn(sio, data,btn_name, character_name):
 
   randClick(1500,800,5,5,0.5) #분해 
   randClick(1560,750,10,10,0.5) #분해 세팅
-  randClick(1190,555,5,5,0) #분해ON
+  randClick(1290,555,5,5,0) #분해ON
+  
 
-  result=img_search_utils.searchImg('confirm.png', beforeDelay=1, afterDelay=1, chkCnt=2, _region=(950,580,300,200))
+  result=img_search_utils.searchImg('confirm.png', beforeDelay=0, afterDelay=1, chkCnt=2, _region=(950,580,300,200))
   if(result==0):
     return 0, "분해세팅 실패"
 
@@ -320,9 +321,10 @@ def decomposeItemOff(sio, data,btn_name, character_name):
 
   randClick(1500,800,5,5,0.5) #분해 
   randClick(1560,750,10,10,0.5) #분해 세팅
-  randClick(1290,555,5,5,0) #분해OFF
+  randClick(1190,555,5,5,0) #분해OFF
+  
 
-  result=img_search_utils.searchImg('confirm.png', beforeDelay=1, afterDelay=1, chkCnt=2, _region=(950,580,300,200))
+  result=img_search_utils.searchImg('confirm.png', beforeDelay=0, afterDelay=1, chkCnt=2, _region=(950,580,300,200))
   if(result==0):
     return 0, "분해세팅 실패"
 
