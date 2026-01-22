@@ -15,8 +15,8 @@ import serial_comm
 import json
 import logging
 import sys
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "computer_restart"))
-import computer_restart
+# sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "computer_restart"))
+# import computer_restart
 import game_exe
 import img_search_utils
 import utils
@@ -209,9 +209,9 @@ def recvImage(data):
   else:
     print("데이터가 손상되었거나 무결성 검증 실패!")
 
-@sio.event
-def reboot_computer(data):
-  computer_restart.run_bat_as_admin()
+# @sio.event
+# def reboot_computer(data):
+#   computer_restart.run_bat_as_admin()
 
 @sio.event
 def game_start(data):
