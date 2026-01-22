@@ -292,39 +292,39 @@ def switch_get_item(sio, data, btn_name, character_name):
   escKey()  #나가기
   return 1, "message:None"
 
-def decomposeItem(sio, data,btn_name, character_name):
+def decomposeItemOn(sio, data,btn_name, character_name):
   coord=data
   delay=data[4]
   name=character_name
 
-  keyboard("0") #분해
+  keyboard("i") 
   time.sleep(1)
 
-  randClick(1480,735,5,5,0) #분해 목록
-  randClick(1395,730,10,10,0) #분해 목록 확인
-  randClick(1321,735,5,5,0) #분해
+  randClick(1500,800,5,5,0.5) #분해 
+  randClick(1560,750,10,10,0.5) #분해 세팅
+  randClick(1190,555,5,5,0) #분해ON
 
-  img_search_utils.searchImg('confirm.png', beforeDelay=1, afterDelay=1, chkCnt=2, _region=(920,580,300,200))
-  
-  img_search_utils.caputure_image(name, 1280, 340, sio) #name, x, y, sio
+  result=img_search_utils.searchImg('confirm.png', beforeDelay=1, afterDelay=1, chkCnt=2, _region=(950,580,300,200))
+  if(result==0):
+    return 0, "분해세팅 실패"
 
   return 1, "message:None"
 
-def decomposeBook(sio, data,btn_name, character_name):
+def decomposeItemOff(sio, data,btn_name, character_name):
   coord=data
   delay=data[4]
   name=character_name
 
-  keyboard("9") #분해
+  keyboard("i") 
   time.sleep(1)
 
-  randClick(1480,735,5,5,0) #분해 목록
-  randClick(1395,730,10,10,0) #분해 목록 확인
-  randClick(1321,735,5,5,0) #분해
+  randClick(1500,800,5,5,0.5) #분해 
+  randClick(1560,750,10,10,0.5) #분해 세팅
+  randClick(1290,555,5,5,0) #분해OFF
 
-  img_search_utils.searchImg('confirm.png', beforeDelay=1, afterDelay=1, chkCnt=2, _region=(920,580,300,200))
-  
-  img_search_utils.caputure_image(name, 1280, 340, sio) #name, x, y, sio
+  result=img_search_utils.searchImg('confirm.png', beforeDelay=1, afterDelay=1, chkCnt=2, _region=(950,580,300,200))
+  if(result==0):
+    return 0, "분해세팅 실패"
 
   return 1, "message:None"
   
