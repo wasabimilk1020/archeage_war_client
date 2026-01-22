@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+client_config.json
+computer_restart/
+config_json/

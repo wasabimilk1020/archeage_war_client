@@ -1,0 +1,139 @@
+import pyautogui
+import os
+import time
+import pyautogui
+import datetime
+import base64
+import win32com.client
+shell = win32com.client.Dispatch("WScript.Shell")
+import win32gui
+from serial_comm import *
+import utils
+import pytesseract
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+from PIL import ImageGrab,ImageEnhance,Image,ImageOps,ImageFilter
+
+#이미지 서치
+def searchImg(imgTitle, beforeDelay, afterDelay, justChk=False, coord=[], chkCnt=5, _region=(300, 125, 1370, 790), accuracy=0.85):
+  full_path=utils.file_path(f"{imgTitle}","image_files")  #file, folder, sub_folder
+  chkInterval=0.5
+  loopCnt = 0
+
+  while loopCnt < chkCnt:
+    loopCnt += 1
+    try:
+      time.sleep(beforeDelay)
+      result = pyautogui.locateOnScreen(full_path, region=_region, confidence=accuracy)
+
+      if result is None:  # 이미지 찾기 실패
+        time.sleep(chkInterval)
+        continue
+
+      # 이미지 찾기 성공
+      if coord:  # 이미지가 아닌 다른 곳 클릭 시
+        randClick(coord[0], coord[1], coord[2], coord[3], 0)
+      elif justChk:  # 클릭 없이 이미지 체크만 할 경우
+        return result
+      else:  # 이미지 클릭
+        randClick(result[0], result[1], result[2], result[3], 0)
+
+      time.sleep(afterDelay)
+      return 1
+    except pyautogui.ImageNotFoundException:  #이미지 찾기 실패
+      print(f"Image '{imgTitle}' not found on screen.")
+      time.sleep(chkInterval)
+      continue
+    except Exception as e:
+      print(f"An error occurred: {e}")
+      return 0 
+  return 0  
+
+def caputure_image(name,x,y,sio):
+  full_path=utils.file_path(f"{name}.png","image_files","capture_img")  #file, folder, sub_folder
+
+  time.sleep(0.2)
+  pyautogui.screenshot(full_path, region=(x,y,50,30))
+  with open(full_path, "rb") as f:
+    b64_string = base64.b64encode(f.read())
+    captureImg=b64_string
+  now = datetime.datetime.now()
+  nowDatetime=now.strftime('%H:%M')
+  data=[name, nowDatetime, captureImg] 
+  sio.emit("captured_image",data)
+
+# def getWindow(handle):
+#   startClick(0,0,0,0,0)
+#   time.sleep(0.1)
+#   shell.SendKeys('%')
+#   try:
+#     win32gui.SetForegroundWindow(handle)  # 창을 앞으로 가져오기 시도
+#   except Exception as e:
+#     return 0, "Error bringing window to foreground"
+  
+#   for _ in range(10): # 최대 3초 동안 (0.3초 간격으로 10번) 창 활성화 확인
+#       if win32gui.GetForegroundWindow() == handle:
+#           return 1, "성공" 
+#       time.sleep(0.3)  
+#   return 0, "Error: Window did not come to foreground within timeout."
+
+# import win32process, win32api
+
+# def forceForeground(handle):
+#     fg = win32gui.GetForegroundWindow()
+#     tid1 = win32api.GetCurrentThreadId()
+#     tid2 = win32process.GetWindowThreadProcessId(fg)[0]
+#     tid3 = win32process.GetWindowThreadProcessId(handle)[0]
+
+#     win32api.AttachThreadInput(tid1, tid2, True)
+#     win32api.AttachThreadInput(tid1, tid3, True)
+
+#     win32gui.ShowWindow(handle, 5)
+#     win32gui.SetForegroundWindow(handle)
+
+#     win32api.AttachThreadInput(tid1, tid2, False)
+#     win32api.AttachThreadInput(tid1, tid3, False)
+
+def getWindow(handle):
+    try:
+      time.sleep(0.1)
+      shell.SendKeys('%')
+      win32gui.SetForegroundWindow(handle)
+      startClick(850,440,100,100,0)
+    except:
+      pass  # 실패해도 무시
+
+    return 1, "성공"
+
+
+def capture_text_from_region(x, y, width, height, _config, binary_val):
+  binary_value=binary_val
+  # 화면의 특정 영역 캡처
+  bbox = (x, y, x + width, y + height)
+  try:
+    screenshot = ImageGrab.grab(bbox)
+    # screenshot.save("origin.png")
+  except Exception as e:
+    return 0, f"ImageGrab 실행 중 오류 발생: {e}"
+  # 크기 키우기
+  scaled = screenshot.resize((screenshot.width * 2, screenshot.height * 2), Image.Resampling.LANCZOS)
+
+  # 전처리: 흑백 변환 및 대비 증가
+  grayscale = scaled.convert("L")  # 흑백 이미지로 변환
+  # grayscale.save("greyscale_img.png")
+  enhanced = ImageEnhance.Contrast(grayscale).enhance(2.0)  # 대비 조정
+  # enhanced.save("enhanced_img.png")
+  binary = enhanced.point(lambda x: 0 if x < binary_value else 255, '1')  # 이진화 처리
+  # binary.save("binary_img.png")
+
+  # 이미지 반전
+  inverted_image = ImageOps.invert(binary)
+  # inverted_image.save("inverted_img.png")
+
+  # OCR로 문자 추출
+  try:
+    text = pytesseract.image_to_string(inverted_image, lang='kor',config=_config)  
+  except Exception as e:
+    return 0, f"OCR 실행 중 오류 발생: {e}"
+
+  return text, "capture_text 성공"
+
