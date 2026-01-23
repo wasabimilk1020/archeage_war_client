@@ -71,7 +71,6 @@ def connect():
   global character_list
   print('connection established')   
   character_list=utils.load_json("character_list.json","config_json")
-  print("여기서 들어오나?",character_list)
   last_pong_time = time.time()  #서버가 다시 연결되었을 때 타이머 초기화 (이전 타이머 값이 남아있을 경우 방지)
 
   if serial_comm.ser is None or not serial_comm.ser.is_open:
