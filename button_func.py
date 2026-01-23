@@ -707,20 +707,20 @@ def party(sio, data,btn_name, character_name):
   cnt=data[4]
   name=character_name
 
-  result=img_search_utils.searchImg('enter_party.png', beforeDelay=0, afterDelay=0, _region=(380,290,200,100))  #파티생성 여부 체크 및 참여
+  result=img_search_utils.searchImg('enter_party.png', beforeDelay=0, afterDelay=1, _region=(380,290,200,100))  #파티생성 여부 체크 및 참여
   if(result==0):
     keyboard('e') #파티
-    randClick(350,360,2,2,0)  #6인
-    randClick(728,408,2,2,0)  #랜덤
-    randClick(482,452,2,2,0)  #균등
-    result=img_search_utils.searchImg('party.png',beforeDelay=0, afterDelay=0, _region=(400, 640, 250, 100)) #파티 생성
+    randClick(350,360,2,2,0.5)  #6인
+    randClick(728,408,2,2,0.5)  #랜덤
+    randClick(482,452,2,2,0.5)  #균등
+    result=img_search_utils.searchImg('party.png',beforeDelay=0, afterDelay=0.5, _region=(400, 640, 250, 100)) #파티 생성
     if(result==0):
       return 0, "파티 생성 실패"
-    randClick(328,574,5,5,0)  #파티초대
-    randClick(360,170,5,5,0)  #친구
+    randClick(328,574,5,5,0.5)  #파티초대
+    randClick(360,170,5,5,0.5)  #친구
     _y = 235
     for _ in range(5):
-        randClick(445, _y, 10, 10, 0)
+        randClick(445, _y, 10, 10, 0.5)
         _y += 65
 
   return 1, "message:None"
