@@ -11,7 +11,7 @@ def statusChk(sio, data, btn_name, character_name):
   coord=data
   delay=data[4]
   name=character_name
- 
+  
   value=check_hunting.checkHunting() #value=성공 시=문자열, 실패 시=0
   if value[0]==1: #1을 return (사냥을 하지 않고 있다는 뜻)
     result=waking_from_sleep_and_deathChk(btn_name, sleep_time=2)
@@ -31,17 +31,23 @@ def normalHunting(sio, data,btn_name, character_name):
   name=character_name
 
   keyboard('1') #귀환
-  time.sleep(3)
  
-  result_1=img_search_utils.searchImg('portion.png',beforeDelay=0, afterDelay=4, chkCnt=10, _region=(530, 105, 900, 150),accuracy=0.7)
-  if(result_1==0):
-    return 0, "잡화상점 실패"
-
-  result=img_search_utils.searchImg('auto_buy.png',beforeDelay=0, afterDelay=0.5, chkCnt=20, _region=(1430, 790, 300, 200))
-  if(result==0):
-    return 0, "자동담기 실패"
-  randClick(1560,920,10,10,0.5) #구매결정
-  randClick(1075,660,10,10,0) #확인
+  delay_time=5
+  for i in range(2):
+    result_1=img_search_utils.searchImg('portion.png',beforeDelay=delay_time, afterDelay=4, chkCnt=10, _region=(530, 105, 900, 150),accuracy=0.7)
+    if(result_1==0):
+      return 0, "잡화상점 실패"
+    result=img_search_utils.searchImg('auto_buy.png',beforeDelay=0, afterDelay=0.5, chkCnt=20, _region=(1430, 790, 300, 200))
+    if(result==0):  #실패
+      if (i==0):
+        delay_time-=3
+        continue
+      else:
+        return 0, "자동담기 실패"
+    else:  #성공
+      randClick(1560,920,10,10,0.5) #구매결정
+      randClick(1075,660,10,10,0) #확인
+      break #첫 번째 루프에서 성공하면 break
 
   escKey() #상점 나가기
 
@@ -100,7 +106,7 @@ def dungeon(sio, data, btn_name, character_name):
       time.sleep(2)
 
     keyboard("`") #던전
-
+    #던전 메뉴 진입 후에 칼바람을 클릭을 못하는대 왜그러지?? 이미지 서치 실패인가 그냥 딜레이 문제는 아니고
     result=img_search_utils.searchImg('kal_dun.png',beforeDelay=1, afterDelay=1)
     if(result==0):
       return 0, "칼바람 클릭 실패"
