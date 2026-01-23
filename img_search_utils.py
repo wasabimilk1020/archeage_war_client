@@ -14,7 +14,7 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tessera
 from PIL import ImageGrab,ImageEnhance,Image,ImageOps,ImageFilter
 
 #이미지 서치
-def searchImg(imgTitle, beforeDelay, afterDelay, justChk=False, coord=[], chkCnt=5, _region=(300, 125, 1370, 790), accuracy=0.8):
+def searchImg(imgTitle, beforeDelay, afterDelay, justChk=False, coord=[], chkCnt=5, _region=(160, 35, 1600, 950), accuracy=0.85):
   full_path=utils.file_path(f"{imgTitle}","image_files")  #file, folder, sub_folder
   chkInterval=0.5
   loopCnt = 0

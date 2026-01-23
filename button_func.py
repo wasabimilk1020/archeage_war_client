@@ -220,7 +220,7 @@ def dungeon(sio, data, btn_name, character_name):
     keyboard("`") #던전
     randClick(600,145,5,5,0)  #렐름던전 클릭
 
-    result=img_search_utils.searchImg('fire.png',beforeDelay=1, afterDelay=1)
+    result=img_search_utils.searchImg('fire.png',beforeDelay=2, afterDelay=1)
     if(result==0):
       return 0, "렐름던전 클릭 실패"
 
