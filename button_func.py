@@ -34,10 +34,10 @@ def normalHunting(sio, data,btn_name, character_name):
  
   delay_time=5
   for i in range(2):
-    result_1=img_search_utils.searchImg('portion.png',beforeDelay=delay_time, afterDelay=4, chkCnt=10, _region=(530, 105, 900, 150),accuracy=0.7)
+    result_1=img_search_utils.searchImg('portion.png',beforeDelay=delay_time, afterDelay=5, chkCnt=10, _region=(530, 105, 900, 150),accuracy=0.7)
     if(result_1==0):
       return 0, "잡화상점 실패"
-    result=img_search_utils.searchImg('auto_buy.png',beforeDelay=0, afterDelay=0.5, chkCnt=20, _region=(1430, 790, 300, 200))
+    result=img_search_utils.searchImg('auto_buy.png',beforeDelay=0, afterDelay=0.5, chkCnt=25, _region=(1430, 790, 300, 200))
     if(result==0):  #실패
       if (i==0):
         delay_time-=3
@@ -717,10 +717,10 @@ def party(sio, data,btn_name, character_name):
     if(result==0):
       return 0, "파티 생성 실패"
     randClick(328,574,5,5,0.5)  #파티초대
-    randClick(360,170,5,5,0.5)  #친구
+    randClick(360,170,5,5,1)  #친구
     _y = 235
     for _ in range(5):
-        randClick(445, _y, 10, 10, 0.5)
+        randClick(445, _y, 10, 10, 1)
         _y += 65
 
   return 1, "message:None"
