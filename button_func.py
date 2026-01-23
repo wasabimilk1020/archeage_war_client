@@ -584,13 +584,13 @@ def guild(sio, _donation_cnt,btn_name, character_name):
   name=character_name
   keyboard('.')
 
-  randClick(280,920,10,10,0)  #출석보상 클릭
-  randClick(280,920,10,10,0)  #출석보상 
+  randClick(280,920,10,10,1.5)  #출석보상 클릭
+  randClick(280,920,10,10,0.5)  #출석보상 
 
   randClick(300,860,10,10,0)  #기부 클릭
 
   for i in range(donation_cnt):
-    result=img_search_utils.searchImg('donation.png', beforeDelay=0.5, afterDelay=0,_region=(480,675,400,150), accuracy=0.7) 
+    result=img_search_utils.searchImg('donation.png', beforeDelay=0.5, afterDelay=1,_region=(480,675,400,150), accuracy=0.7) 
     if(result==0):
       return 0, "일괄구매 실패"
     randClick(590,730,10,10,0)
