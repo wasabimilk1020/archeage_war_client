@@ -559,7 +559,7 @@ def unlimit(sio, data,btn_name, character_name, handle):
   return 1, "message:None"
 
 #데일리 출석 루틴
-def daily(sio, data,btn_name, character_name, handle):
+def daily(sio, data,btn_name, character_name):
   coord=data
   delay=data[4]
   name=character_name
@@ -581,7 +581,7 @@ def daily(sio, data,btn_name, character_name, handle):
   return 1, "message:None"
 
 #혈맹 출석 루틴
-def guild(sio, _donation_cnt,btn_name, character_name, handle):
+def guild(sio, _donation_cnt,btn_name, character_name):
   donation_cnt=_donation_cnt
   name=character_name
   keyboard('.')
@@ -602,7 +602,7 @@ def guild(sio, _donation_cnt,btn_name, character_name, handle):
 
   return 1, "message:None"
 
-def store(sio, data,btn_name, character_name, handle):
+def store(sio, data,btn_name, character_name):
   coord=data
   delay=data[4]
   name=character_name
