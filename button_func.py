@@ -55,9 +55,9 @@ def normalHunting(sio, data,btn_name, character_name, handle):
 
   keyboard('v') #위치저장 클릭
   time.sleep(0.5)
-  randClick(535,355,5,5,3)  #이동
+  randClick(535,355,5,5,0)  #이동
 
-  result=img_search_utils.searchImg('chk.png',beforeDelay=1, afterDelay=1, chkCnt=10, justChk=True, _region=(880, 40, 200, 150), accuracy=0.7)
+  result=img_search_utils.searchImg('chk.png',beforeDelay=5, afterDelay=1, chkCnt=15, justChk=True, _region=(880, 40, 200, 150), accuracy=0.7)
   if(result==0):
     return 0, "체크 실패"
   

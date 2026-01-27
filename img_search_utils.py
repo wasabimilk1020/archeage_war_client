@@ -163,7 +163,7 @@ def img_matchTemplate(temp_imgTitle, x, y, width, height, confidence=0.6):
     bbox = (x, y, x + width, y + height)
     target_pil = ImageGrab.grab(bbox)
     # target_pil.show()
-    target_pil.save("debug_capture.png")
+    # target_pil.save("debug_capture.png")
 
     # PIL → OpenCV
     img = cv2.cvtColor(np.array(target_pil), cv2.COLOR_RGB2BGR)
