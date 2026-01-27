@@ -191,7 +191,7 @@ def img_matchTemplate(temp_imgTitle, x, y, width, height, confidence=0.6):
     try:
       result = cv2.matchTemplate(sharpened, template_img, cv2.TM_CCOEFF_NORMED) 
     except Exception as e:
-      return 0, f"템플릿매칭 오류 발생: {e}"
+      return 2, f"템플릿매칭 오류 발생: {e}"
     _, max_val, _, max_loc = cv2.minMaxLoc(result)
 
     if max_val >= confidence: #매칭 성공

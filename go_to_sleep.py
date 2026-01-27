@@ -7,11 +7,6 @@ ERR_MSG = 0
 STATUS_MSG = 1
 
 def go_to_sleep_and_huntingChk(btn_name, character_name, sio):
-  # for i in range(3):
-  #   serial_comm.keyboard('g')
-  #   result=client_utils.searchImg('sleepChk.png', beforeDelay=1, afterDelay=0,  chkCnt=2, _region=(850, 455, 200, 200))  
-  #   if result ==1:
-  #     break
   result=img_search_utils.searchImg('power_off.png',beforeDelay=0.5, afterDelay=0.5, chkCnt=10, _region=(125, 870, 200, 150), accuracy=0.7)
   if(result==0):
     return 0, "절전모드 실패"
