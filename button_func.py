@@ -15,13 +15,13 @@ def statusChk(sio, data, btn_name, character_name, handle):
   name=character_name
   
   value=check_hunting.checkHunting() #value=성공 시=문자열, 실패 시=0
-  if value[0]==1: #1을 return (사냥을 하지 않고 있다는 뜻)
+  if value[0]==0: #0을 return (사냥을 하지 않고 있다는 뜻)
     result=waking_from_sleep_and_deathChk(btn_name, sleep_time=2)
     if result==1: #사망 체크를 수행 했는대 chk.png가 확인 안되서 실패
       return 0, "페널티 체크 루틴 실패"
     result=normalHunting(sio, data, btn_name, character_name, handle)
     return result
-  elif value[0]==0: #capture_text_from_region 예외 발생
+  elif value[0]==2: #capture_text_from_region 예외 발생
     return 1, value[1]
   else:  #성공
     text=value[0]

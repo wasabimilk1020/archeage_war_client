@@ -12,4 +12,4 @@ def checkHunting():
     elif match_result[0] == "자동 사냥 중": #매칭 성공
       return match_result[0], ""
     time.sleep(0.3)
-  return 1, "사냥 멈춰있음" #실패를 나타냄
+  return 0, "사냥 멈춰있음" #실패를 나타냄
