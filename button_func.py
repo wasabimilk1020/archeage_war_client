@@ -62,6 +62,7 @@ def normalHunting(sio, data,btn_name, character_name, handle):
     return 0, "체크 실패"
   
   keyboard('f') #사냥
+  time.sleep(0.5)
 
   # keyboard('m') #지도
   # randClick(195,470,5,5,0)  #즐겨찾기
