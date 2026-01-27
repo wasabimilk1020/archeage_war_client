@@ -165,6 +165,7 @@ button_mapping={
   # "케트라":button_func.party_dungeon,
   # "클래스합성":button_func.class_add,
   # "아가합성":button_func.aga_add,
+  "창정렬":button_func.move_window
 
 }
 

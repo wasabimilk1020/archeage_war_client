@@ -35,7 +35,7 @@ def mainLoop(sio, btn_func, func_data, id_handle, btn_name):
       
       if len(func_data) ==5:
         func_data_copy = copy.deepcopy(func_data)
-        result=btn_func(sio, func_data_copy, btn_name, character_name) #result[0]=성공여부, result[1]=메세지
+        result=btn_func(sio, func_data_copy, btn_name, character_name, handle) #result[0]=성공여부, result[1]=메세지
         try:
           message=result[1]
 

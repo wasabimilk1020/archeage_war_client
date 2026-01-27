@@ -9,6 +9,8 @@ import datetime
 import base64
 import serial_comm
 import utils
+import cv2
+import numpy as np
 import pytesseract
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 from PIL import ImageGrab,ImageEnhance,Image,ImageOps,ImageFilter
@@ -119,3 +121,81 @@ def capture_text_from_region(x, y, width, height, _config, binary_val):
 
   return text, "capture_text 성공"
 
+def preprocess_image(temp_imgTitle, output_path):  #이미지 전처리
+    input_path=utils.file_path(f"{temp_imgTitle}","image_files")  #file, folder, sub_folder
+
+    # 이미지 로드
+    template_image = cv2.imread(input_path)
+    
+    # 1. 그레이스케일
+    gray = cv2.cvtColor(template_image, cv2.COLOR_BGR2GRAY)
+
+    # 2. 대비 향상 (CLAHE)
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+    contrast = clahe.apply(gray)
+
+    # 3. 샤프닝
+    kernel = np.array([[0, -1, 0],
+                       [-1, 5, -1],
+                       [0, -1, 0]])
+    sharpened = cv2.filter2D(contrast, -1, kernel)
+
+    # # 4. 이진화 (Otsu Threshold)
+    # _, binary = cv2.threshold(
+    #     sharpened, 0, 255,
+    #     cv2.THRESH_BINARY + cv2.THRESH_OTSU
+    # )
+
+    # 저장
+    cv2.imwrite(output_path, sharpened)
+
+def img_matchTemplate(temp_imgTitle, x, y, width, height, confidence=0.6):
+
+    # 템플릿 경로
+    template_path = utils.file_path(f"{temp_imgTitle}", "image_files")
+
+    # 전처리된 템플릿 이미지 로드 (그레이로)
+    template_img = cv2.imread(template_path, cv2.IMREAD_GRAYSCALE)
+    if template_img is None:
+        raise ValueError(f"템플릿 로드 실패: {template_path}")
+
+    # ---------- 타겟 캡처 ----------
+    bbox = (x, y, x + width, y + height)
+    target_pil = ImageGrab.grab(bbox)
+    # target_pil.show()
+    target_pil.save("debug_capture.png")
+
+    # PIL → OpenCV
+    img = cv2.cvtColor(np.array(target_pil), cv2.COLOR_RGB2BGR)
+
+    # ---------- 타겟 전처리 ----------
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+    contrast = clahe.apply(gray)
+
+    kernel = np.array([[0, -1, 0],
+                       [-1, 5, -1],
+                       [0, -1, 0]])
+    sharpened = cv2.filter2D(contrast, -1, kernel)
+
+    # _, binary = cv2.threshold(
+    #     sharpened, 0, 255,
+    #     cv2.THRESH_BINARY + cv2.THRESH_OTSU
+    # )
+    # cv2.imshow("binary", binary)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
+
+    # ---------- 매칭 ----------
+    try:
+      result = cv2.matchTemplate(sharpened, template_img, cv2.TM_CCOEFF_NORMED) 
+    except Exception as e:
+      return 0, f"템플릿매칭 오류 발생: {e}"
+    _, max_val, _, max_loc = cv2.minMaxLoc(result)
+
+    if max_val >= confidence: #매칭 성공
+      return "자동 사냥 중", "capture_text 성공"
+    else: #매칭 실패
+      print(max_val)
+      return 0, max_val

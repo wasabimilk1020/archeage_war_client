@@ -5,9 +5,11 @@ import re
 import check_hunting
 from waking_from_sleep import *
 from go_to_sleep import *
+import win32gui
+import win32con
 
 #data=[1142, 375, 10, 10, 0.0]=[x,y,xRange,yRange,delay]
-def statusChk(sio, data, btn_name, character_name):
+def statusChk(sio, data, btn_name, character_name, handle):
   coord=data
   delay=data[4]
   name=character_name
@@ -17,7 +19,7 @@ def statusChk(sio, data, btn_name, character_name):
     result=waking_from_sleep_and_deathChk(btn_name, sleep_time=2)
     if result==1: #사망 체크를 수행 했는대 chk.png가 확인 안되서 실패
       return 0, "페널티 체크 루틴 실패"
-    result=normalHunting(sio, data, btn_name, character_name)
+    result=normalHunting(sio, data, btn_name, character_name, handle)
     return result
   elif value[0]==0: #capture_text_from_region 예외 발생
     return 1, value[1]
@@ -25,7 +27,7 @@ def statusChk(sio, data, btn_name, character_name):
     text=value[0]
     return 2, text
 
-def normalHunting(sio, data,btn_name, character_name):
+def normalHunting(sio, data,btn_name, character_name, handle):
   coord=data
   flag=data[4]
   name=character_name
@@ -55,7 +57,7 @@ def normalHunting(sio, data,btn_name, character_name):
   time.sleep(0.5)
   randClick(535,355,5,5,3)  #이동
 
-  result=img_search_utils.searchImg('chk.png',beforeDelay=0, afterDelay=1, chkCnt=10, justChk=True, _region=(880, 40, 200, 150), accuracy=0.7)
+  result=img_search_utils.searchImg('chk.png',beforeDelay=1, afterDelay=1, chkCnt=10, justChk=True, _region=(880, 40, 200, 150), accuracy=0.7)
   if(result==0):
     return 0, "체크 실패"
   
@@ -84,7 +86,7 @@ def normalHunting(sio, data,btn_name, character_name):
 
   return 1, "message:None"
 
-def postBox(sio, data,btn_name, character_name):
+def postBox(sio, data,btn_name, character_name, handle):
   keyboard(",") #메뉴
 
   randClick(1570,920,10,10,2) #모두받기
@@ -95,7 +97,7 @@ def postBox(sio, data,btn_name, character_name):
   return 1, "message:None"
 
 #---------던전---------#
-def dungeon(sio, data, btn_name, character_name):
+def dungeon(sio, data, btn_name, character_name, handle):
   coord=data
   charging=data[4]
   name=character_name
@@ -264,7 +266,7 @@ def dungeon(sio, data, btn_name, character_name):
   return 1, "message:None"
 
 #---------아이템 변경---------#
-def switch_get_item(sio, data, btn_name, character_name):
+def switch_get_item(sio, data, btn_name, character_name, handle):
   coord=data
   delay=data[4]
   name=character_name
@@ -298,7 +300,7 @@ def switch_get_item(sio, data, btn_name, character_name):
   escKey()  #나가기
   return 1, "message:None"
 
-def decomposeItemOn(sio, data,btn_name, character_name):
+def decomposeItemOn(sio, data,btn_name, character_name, handle):
   coord=data
   delay=data[4]
   name=character_name
@@ -317,7 +319,7 @@ def decomposeItemOn(sio, data,btn_name, character_name):
 
   return 1, "message:None"
 
-def decomposeItemOff(sio, data,btn_name, character_name):
+def decomposeItemOff(sio, data,btn_name, character_name, handle):
   coord=data
   delay=data[4]
   name=character_name
@@ -336,7 +338,7 @@ def decomposeItemOff(sio, data,btn_name, character_name):
 
   return 1, "message:None"
   
-def deathChk(sio, data,btn_name, character_name):
+def deathChk(sio, data,btn_name, character_name, handle):
   coord=data
   delay=data[4]
   name=character_name
@@ -346,7 +348,7 @@ def deathChk(sio, data,btn_name, character_name):
 
   return 1, "message:None"
 
-def showDiamond(sio, data,btn_name, character_name):
+def showDiamond(sio, data,btn_name, character_name, handle):
   coord=data
   delay=data[4]
   name=character_name
@@ -375,7 +377,7 @@ def showDiamond(sio, data,btn_name, character_name):
 
   return 3, diamond
 
-def useItem(sio, data,btn_name, character_name):
+def useItem(sio, data,btn_name, character_name, handle):
   coord=data
   delay=data[4]
   name=character_name
@@ -390,7 +392,7 @@ def useItem(sio, data,btn_name, character_name):
 
   return 1, "message:None"
 
-def agasion(sio, data,btn_name, character_name):
+def agasion(sio, data,btn_name, character_name, handle):
   coord=data
   delay=data[4]
   name=character_name
@@ -414,7 +416,7 @@ def agasion(sio, data,btn_name, character_name):
 
   return 1, "message:None"
 
-def itemDelete(sio, data,btn_name, character_name):
+def itemDelete(sio, data,btn_name, character_name, handle):
   coord=data
   delay=data[4]
   name=character_name
@@ -448,7 +450,7 @@ def itemDelete(sio, data,btn_name, character_name):
   
   return 1, "message:None"
 
-def paper(sio, data,btn_name, character_name):
+def paper(sio, data,btn_name, character_name, handle):
   coord=data
   delay=data[4]
   name=character_name
@@ -479,7 +481,7 @@ def paper(sio, data,btn_name, character_name):
   
   return 1, "message:None"
 
-def event_store(sio, data,btn_name, character_name):
+def event_store(sio, data,btn_name, character_name, handle):
   coord=data
   delay=data[4]
   name=character_name
@@ -520,7 +522,7 @@ def event_store(sio, data,btn_name, character_name):
   return result
 
 #거리 40M
-def fourty(sio, data,btn_name, character_name):
+def fourty(sio, data,btn_name, character_name, handle):
   coord=data
   delay=data[4]
   name=character_name
@@ -538,7 +540,7 @@ def fourty(sio, data,btn_name, character_name):
   return 1, "message:None"
 
 #거리 제한없음
-def unlimit(sio, data,btn_name, character_name):
+def unlimit(sio, data,btn_name, character_name, handle):
   coord=data
   delay=data[4]
   name=character_name
@@ -557,7 +559,7 @@ def unlimit(sio, data,btn_name, character_name):
   return 1, "message:None"
 
 #데일리 출석 루틴
-def daily(sio, data,btn_name, character_name):
+def daily(sio, data,btn_name, character_name, handle):
   coord=data
   delay=data[4]
   name=character_name
@@ -579,7 +581,7 @@ def daily(sio, data,btn_name, character_name):
   return 1, "message:None"
 
 #혈맹 출석 루틴
-def guild(sio, _donation_cnt,btn_name, character_name):
+def guild(sio, _donation_cnt,btn_name, character_name, handle):
   donation_cnt=_donation_cnt
   name=character_name
   keyboard('.')
@@ -600,7 +602,7 @@ def guild(sio, _donation_cnt,btn_name, character_name):
 
   return 1, "message:None"
 
-def store(sio, data,btn_name, character_name):
+def store(sio, data,btn_name, character_name, handle):
   coord=data
   delay=data[4]
   name=character_name
@@ -623,7 +625,7 @@ def store(sio, data,btn_name, character_name):
   return 1, "message:None"
 
 #------------모닝 루틴------------#
-def morning(sio, data,btn_name, character_name):
+def morning(sio, data,btn_name, character_name, handle):
   coord=data
   donation_cnt=data[4]
   name=character_name
@@ -645,7 +647,7 @@ def morning(sio, data,btn_name, character_name):
 
   return 1, "message:None"
 
-def seasonpass(sio, data,btn_name, character_name):
+def seasonpass(sio, data,btn_name, character_name, handle):
   coord=data
   cnt=data[4]
   name=character_name
@@ -671,7 +673,7 @@ def seasonpass(sio, data,btn_name, character_name):
 
   return 1, "message:None"
 
-def make_item(sio, data, btn_name, character_name):
+def make_item(sio, data, btn_name, character_name, handle):
   coord=data
   cnt=data[4]
   name=character_name
@@ -702,7 +704,7 @@ def make_item(sio, data, btn_name, character_name):
 
   return 1, "message:None"
 
-def party(sio, data,btn_name, character_name):
+def party(sio, data,btn_name, character_name, handle):
   coord=data
   cnt=data[4]
   name=character_name
@@ -725,7 +727,7 @@ def party(sio, data,btn_name, character_name):
 
   return 1, "message:None"
 
-def unparty(sio, data,btn_name, character_name):
+def unparty(sio, data,btn_name, character_name, handle):
   coord=data
   cnt=data[4]
   name=character_name
@@ -744,7 +746,7 @@ def unparty(sio, data,btn_name, character_name):
   result=normalHunting(sio, data, btn_name, character_name)
   return result
 
-def party_dungeon(sio, data, btn_name, character_name):
+def party_dungeon(sio, data, btn_name, character_name, handle):
   coord=data
   charging=data[4]
   name=character_name
@@ -828,7 +830,7 @@ def party_dungeon(sio, data, btn_name, character_name):
 
   return 1, "message:None"
 
-def go_home(sio, data, btn_name, character_name):
+def go_home(sio, data, btn_name, character_name, handle):
   coord=data
   charging=data[4]
   name=character_name
@@ -844,7 +846,7 @@ def go_home(sio, data, btn_name, character_name):
 
   return 1, "message:None"
 
-def class_add(sio, data, btn_name, character_name):
+def class_add(sio, data, btn_name, character_name, handle):
   coord=data
   cnt=data[4]
   name=character_name
@@ -866,7 +868,7 @@ def class_add(sio, data, btn_name, character_name):
 
   return 1, "message:None"
 
-def aga_add(sio, data, btn_name, character_name):
+def aga_add(sio, data, btn_name, character_name, handle):
   coord=data
   cnt=data[4]
   name=character_name
@@ -888,7 +890,20 @@ def aga_add(sio, data, btn_name, character_name):
 
   return 1, "message:None"
 
+def move_window(sio, data, btn_name, character_name, handle):
+  coord=data
+  cnt=data[4]
+  name=character_name
+  
+  win32gui.SetWindowPos(
+    handle,
+    None,
+    152, 39,      # x, y
+    0, 0,      # width, height (무시)
+    win32con.SWP_NOSIZE | win32con.SWP_NOZORDER
+)
 
+  return 1, "message:None"
 
 
 
