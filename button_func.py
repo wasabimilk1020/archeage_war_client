@@ -155,9 +155,9 @@ def dungeon(sio, data, btn_name, character_name, handle):
     if(result==0):
       return 0, "체크 실패"
     
-    keyboard('2') #순간이동
-    time.sleep(3)
-    keyboard('f') #사냥
+    # keyboard('2') #순간이동
+    # time.sleep(3)
+    # keyboard('f') #사냥
 
   elif btn_name=="어둠실험":
     for i in range(charging):

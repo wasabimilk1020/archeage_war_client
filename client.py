@@ -121,6 +121,9 @@ def reqAccount(data):
 
   with open(full_path, "w", encoding="utf-8") as f:
     json.dump(accont_dict, f, indent=4, ensure_ascii=False)
+    
+  character_list=utils.load_json("character_list.json","config_json") #새로운 account정보가 json에 써졌으므로 다시 load
+
   sio.emit("revAccount", accont_dict)
 
 button_mapping={
