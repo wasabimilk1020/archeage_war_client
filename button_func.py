@@ -36,7 +36,7 @@ def normalHunting(sio, data,btn_name, character_name, handle):
  
   delay_time=5
   for i in range(2):
-    result_1=img_search_utils.searchImg('portion.png',beforeDelay=delay_time, afterDelay=5, chkCnt=10, _region=(530, 105, 900, 150),accuracy=0.7)
+    result_1=img_search_utils.searchImg('portion.png',beforeDelay=delay_time, afterDelay=5, chkCnt=10, _region=(530, 105, 900, 150))
     if(result_1==0):
       return 0, "잡화상점 실패"
     result=img_search_utils.searchImg('auto_buy.png',beforeDelay=0, afterDelay=0.5, chkCnt=25, _region=(1430, 790, 300, 200))
