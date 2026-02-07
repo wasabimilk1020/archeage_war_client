@@ -89,6 +89,7 @@ def normalHunting(sio, data,btn_name, character_name, handle):
 
 def postBox(sio, data,btn_name, character_name, handle):
   keyboard(",") #메뉴
+  time.sleep(0.5)
 
   randClick(1570,920,10,10,3.5) #모두받기
   randClick(1570,920,10,10,0) #확인
