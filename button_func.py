@@ -162,7 +162,7 @@ def dungeon(sio, data, btn_name, character_name, handle):
 
   elif btn_name=="어둠실험":
     for i in range(charging):
-      keyboard("1")
+      keyboard("3")
       time.sleep(2)
 
     keyboard("`") #던전
